@@ -1,8 +1,24 @@
-import React from 'react';
-import { ShoppingCart } from '@mui/icons-material';
-import { AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { ShoppingCart, SignalWifiStatusbarConnectedNoInternet4Sharp } from '@mui/icons-material';
+import { AppBar, Toolbar, Typography, IconButton, Badge } from '@mui/material';
+import { useAppSelector } from '../hooks/reduxHooks';
 
-const Header = () => {
+interface headerProps {
+    setIsCartOpened: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Header:React.FC<headerProps> = ({setIsCartOpened}) => {
+    const [fullQuantity, setFullQuantity] = useState(0);
+    const {cart} = useAppSelector(state => state);
+
+    useEffect(() => {
+        let fullQ = 0;
+        cart.forEach(cartItem => {
+            fullQ += cartItem.quantity;
+        });
+        setFullQuantity(fullQ);
+    }, [cart]);
+
     return (
         <AppBar>
             <Toolbar>
@@ -12,8 +28,11 @@ const Header = () => {
                 <IconButton
                     size='large'
                     color="inherit"
+                    onClick={() => setIsCartOpened(true)}
                 >
-                    <ShoppingCart/>
+                    <Badge badgeContent={fullQuantity} color='error'>
+                        <ShoppingCart/>
+                    </Badge>
                 </IconButton>
             </Toolbar>
         </AppBar>

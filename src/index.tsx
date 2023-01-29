@@ -5,6 +5,8 @@ import App from './App';
 import { Provider } from 'react-redux';
 import cartSlice from './redux/cartSlice';
 import { configureStore } from '@reduxjs/toolkit';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ErrorPage from './pages/ErrorPage';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
@@ -12,12 +14,20 @@ const root = ReactDOM.createRoot(
 
 const store = configureStore({
 	reducer: cartSlice
-})
+});
+
+const router = createBrowserRouter([
+	{
+	  path: "/",
+	  element: <App/>,
+	  errorElement: <ErrorPage/>
+	},
+]);
 
 root.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<App />
+			<RouterProvider router={router}/>
 		</Provider>
 	</React.StrictMode>
 );

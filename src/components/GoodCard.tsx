@@ -1,12 +1,16 @@
 import React from 'react';
 import { Card, CardMedia, CardContent, Typography, CardActions, Button } from '@mui/material';
 import { IGood } from '../data/goods';
+import { useAppDispatch } from '../hooks/reduxHooks';
+import { addGood } from '../redux/cartSlice';
 
 interface goodCardProps {
     good: IGood;
 }
 
 const GoodCard:React.FC<goodCardProps> = ({good}) => {
+    const dispatch = useAppDispatch();
+
     return (
         <Card
             sx={{height: '100%'}}
@@ -26,7 +30,7 @@ const GoodCard:React.FC<goodCardProps> = ({good}) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size='small'>Купить</Button>
+                <Button onClick={() => dispatch(addGood(good))} size='small'>Купить</Button>
             </CardActions>
         </Card>
     );

@@ -3,7 +3,7 @@ import { IGood } from "../data/goods";
 
 const initialState = {cart: []} as {cart: IGoodInCart[]};
 
-interface IGoodInCart {
+export interface IGoodInCart {
     id: string;
     name: string;
     price: number;
