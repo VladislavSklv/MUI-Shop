@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container } from '@mui/system';
+import React, { useState } from 'react';
+import GoodsList from './components/GoodsList';
+import Header from './components/Header';
+import SearchBar from './components/SearchBar';
+import { allGoods } from './data/goods';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [goods, setGoods] = useState(allGoods);
+	const [query, setQuery] = useState('');
+
+	const handleQueryChange = (e: any) => {
+        if (!e.target.value) {
+            setGoods(allGoods);
+            setQuery('');
+            return;
+        }
+
+        setQuery(e.target.value);
+        setGoods(
+            goods.filter((good) =>
+                good.name.toLowerCase().includes(e.target.value.toLowerCase())
+            )
+		)
+    };
+
+	return (
+		<div>
+			<Header/>
+			<Container sx={{mt: 10}}>
+				<SearchBar handleQueryChange={handleQueryChange} query={query}/>
+				<GoodsList goods={goods}/>
+			</Container>
+		</div>
+	);
 }
 
 export default App;
